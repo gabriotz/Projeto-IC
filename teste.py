@@ -138,3 +138,5 @@ except FileNotFoundError:
     print(f"\nERRO CRÍTICO: O arquivo do mapa '{caminho_shapefile}' não foi encontrado.")
 except Exception as e:
     print(f"\nOcorreu um erro inesperado na análise espacial: {e}")
+
+
