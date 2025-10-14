@@ -41,7 +41,16 @@ except Exception as e:
 # PARTE 2: ANÁLISE TEMPORAL (Já funcional)
 # ===================================================================
 print("\nIniciando a análise temporal...")
-casos_por_ano = df[colunas_anos].sum()
+colunas_de_anos = [col for col in df.columns if col.isdigit()]
+
+# 2. Converte essas colunas para tipo numérico
+colunas_de_anos_numericas = pd.to_numeric(colunas_de_anos)
+
+# 3. Seleciona apenas as colunas cujo ano é 2015 ou maior
+anos_para_plotar = [str(ano) for ano in colunas_de_anos_numericas if ano >= 2015]
+
+# 4. Calcula a soma dos casos usando APENAS a lista de anos correta
+casos_por_ano = df[anos_para_plotar].sum()
 
 plt.style.use('seaborn-v0_8-whitegrid')
 plt.figure(figsize=(12, 7))
@@ -74,10 +83,10 @@ try:
     if not mapa_final.empty:
         print("SUCESSO! A junção foi bem-sucedida. Gerando o mapa aprimorado...")
         
-        fig, ax = plt.subplots(1, 1, figsize=(20, 20)) # Aumentei ainda mais o tamanho
+        fig, ax = plt.subplots(1, 1, figsize=(12, 7)) # Aumentei ainda mais o tamanho
         
         mapa_final.plot(
-            column='total_casos', cmap='inferno', linewidth=0.5, 
+            column='total_casos', cmap='Reds', linewidth=0.5, 
             ax=ax, edgecolor='0.8', legend=True,
             legend_kwds={
                 'label': "Total de Casos Confirmados de SCZ (2015-2025)",
@@ -110,7 +119,16 @@ try:
                 color='white', # Cor do texto
                 bbox=dict(facecolor='black', alpha=0.5, boxstyle='round,pad=0.2', edgecolor='none') # Sombra para legibilidade
             )
-        # --- FIM DA NOVA PARTE ---
+        
+        plt.figtext(
+            0.5, # Posição horizontal (0.5 = centro)
+            0.10, # Posição vertical (0.15 = perto da base)
+            f'Nota: Municípios com mais de {ponto_de_corte} casos confirmados estão rotulados.',
+            ha='center', # Alinhamento horizontal do texto
+            fontsize=12,
+            style='italic',
+            bbox=dict(facecolor='white', alpha=0.6, boxstyle='round,pad=0.5', edgecolor='grey')
+        )
 
         plt.savefig('mapa_distribuicao_casos_com_nomes.png', dpi=300, bbox_inches='tight', pad_inches=0.1)
         print("Análise Espacial Concluída. Mapa aprimorado salvo como 'mapa_distribuicao_casos_com_nomes.png'")
