@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-# --- 1. CARREGAR E LIMPAR DADOS DE ZIKA (sem alterações) ---
+# --- 1. CARREGAR E LIMPAR DADOS DE ZIKA ---
 print("Carregando e limpando dados de casos de Zika...")
 try:
     caminho_zika = 'dados/sinannet_cnv_zikape144309150_161_2_202.csv'
@@ -27,6 +27,7 @@ except FileNotFoundError:
 # --- 2. CARREGAR E LIMPAR DADOS DE POPULAÇÃO ---
 print("Carregando e limpando dados de população do IBGE...")
 try:
+    # Ajustado para o nome de arquivo correto que você está usando
     caminho_populacao = 'dados/481e7096a0820255f086359f3ad45518.csv'
     df_pop = pd.read_csv(caminho_populacao, encoding='latin1', skiprows=1)
 
@@ -36,14 +37,8 @@ try:
         'Popula&ccedil;&atilde;o no &uacute;ltimo censo - pessoas [2022]': 'populacao_2022'
     }, inplace=True)
 
-    # --- CORREÇÃO APLICADA AQUI ---
-    # 1. Tenta converter a coluna para numérico. Onde houver texto (rodapé), vira NaN.
     df_pop['populacao_2022'] = pd.to_numeric(df_pop['populacao_2022'], errors='coerce')
-
-    # 2. Remove todas as linhas que agora contêm NaN (ou seja, o rodapé).
     df_pop.dropna(inplace=True)
-
-    # 3. Agora que só temos números, podemos converter para inteiro com segurança.
     df_pop['populacao_2022'] = df_pop['populacao_2022'].astype(int)
     df_pop['codigo_ibge_7'] = df_pop['codigo_ibge_7'].astype(int)
     df_pop['codigo_ibge'] = df_pop['codigo_ibge_7'].astype(str).str[:6]
@@ -52,23 +47,42 @@ except FileNotFoundError:
     print(f"ERRO: O arquivo de dados de população não foi encontrado. Verifique o caminho: '{caminho_populacao}'")
     exit()
 
-# --- O RESTO DO SCRIPT CONTINUA IGUAL ---
+# --- 3. JUNTAR OS DOIS DATAFRAMES ---
 print("Juntando os dados de casos e população...")
 df_completo = pd.merge(df_zika, df_pop[['codigo_ibge', 'populacao_2022']], on='codigo_ibge', how='left')
 df_completo.dropna(subset=['populacao_2022'], inplace=True)
+df_completo['populacao_2022'] = df_completo['populacao_2022'].astype(int)
 
+
+# --- 4. CALCULAR O TOTAL DE CASOS (2015-2024) ---
 print("Calculando o total de casos no período 2015-2024...")
 colunas_periodo = [col for col in colunas_anos if col.isdigit() and 2015 <= int(col) <= 2024]
 df_completo['total_casos_periodo'] = df_completo[colunas_periodo].sum(axis=1)
 
+# --- 5. CALCULAR A TAXA PROPORCIONAL ---
 print("Calculando a taxa proporcional por 10.000 habitantes...")
+df_completo['taxa_por_10k_hab'] = 0.0
 df_completo.loc[df_completo['populacao_2022'] > 0, 'taxa_por_10k_hab'] = \
     (df_completo['total_casos_periodo'] / df_completo['populacao_2022']) * 10000
-df_completo['taxa_por_10k_hab'].fillna(0, inplace=True)
 
-print("\nAnálise concluída! Amostra dos dados com a nova coluna:")
-print(df_completo[['municipio_nome', 'populacao_2022', 'total_casos_periodo', 'taxa_por_10k_hab']].sort_values(by='taxa_por_10k_hab', ascending=False).head(10))
+# --- 6. CRIAR DATAFRAME FINAL E SALVAR ---
+print("\nAnálise concluída! Criando arquivo de saída limpo...")
+
+# --- CORREÇÃO APLICADA AQUI ---
+# Seleciona apenas as colunas relevantes para a análise de 2015-2024
+colunas_finais = [
+    'codigo_ibge',
+    'municipio_nome',
+    'populacao_2022',
+    'total_casos_periodo', # A soma correta do período
+    'taxa_por_10k_hab'     # A taxa calculada a partir da soma correta
+]
+df_final = df_completo[colunas_finais]
+
+
+print("Amostra dos dados finais:")
+print(df_final.sort_values(by='taxa_por_10k_hab', ascending=False).head(10))
 
 nome_arquivo_saida = 'dados_zika_proporcional_pe.csv'
-df_completo.to_csv(nome_arquivo_saida, index=False, encoding='utf-8')
-print(f"\nResultado completo salvo com sucesso em: '{nome_arquivo_saida}'")
+df_final.to_csv(nome_arquivo_saida, index=False, encoding='utf-8')
+print(f"\nResultado completo e focado no período 2015-2024 salvo com sucesso em: '{nome_arquivo_saida}'")
