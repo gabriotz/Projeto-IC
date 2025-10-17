@@ -29,7 +29,7 @@ print("Iniciando o menu de analise")
 print("Qual municipio você deseja ver os dados?")
 municipioEscolhido = input().strip().upper()
 
-dados_do_municipio = df[df['municio_nome'] == municipioEscolhido]
+dados_do_municipio = df[df['municipio_nome'] == municipioEscolhido]
 
 if not dados_do_municipio.empty:
     print(f"\nExibindo dados para: {municipioEscolhido}")

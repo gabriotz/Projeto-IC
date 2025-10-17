@@ -11,6 +11,7 @@ print("Iniciando o script de análise...")
 # ===================================================================
 
 try:
+    caminho_populacao = 'dados\481e7096a0820255f086359f3ad45518.csv'
     caminho_do_arquivo = 'dados/sinannet_cnv_zikape144309150_161_2_202.csv'
     df = pd.read_csv(
         caminho_do_arquivo, delimiter=';', encoding='latin1', 
