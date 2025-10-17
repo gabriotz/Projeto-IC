@@ -6,7 +6,7 @@ import seaborn as sns
 print("Carregando o arquivo com as taxas proporcionais...")
 try:
     # Este arquivo deve ter sido gerado pelo script analise_proporcional.py
-    df_proporcional = pd.read_csv('dados/processados/taxas_proporcionais.csv')
+    df_proporcional = pd.read_csv('dados_zika_proporcional_pe.csv')
 except FileNotFoundError:
     print("ERRO: O arquivo 'dados_zika_proporcional_pe.csv' não foi encontrado.")
     print("Por favor, execute o script 'analise_proporcional.py' primeiro para gerar o arquivo necessário.")
