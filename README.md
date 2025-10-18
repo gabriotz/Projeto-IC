@@ -16,7 +16,7 @@ Principal Achado (Spoiler): A análise estatística confirma a hipótese. Indica
 A investigação foi dividida em três etapas lógicas:
 
 1. 🗓️ O Panorama Temporal: Quando ocorreu o pico?
-A análise temporal dos casos confirmados de SCZ em Pernambuco mostra um pico epidêmico claro nos anos de 2015 e 2016, que serviram como foco principal do estudo.
+A análise temporal dos casos confirmados de SCZ em Pernambuco mostra um pico epidêmico claro nos anos de 2021 e 2022, que serviram como foco principal do estudo.
 
 <p align="center"> <img src="resultados/graficos/evolucao_temporal_casos.png" width="800"> </p>
 
