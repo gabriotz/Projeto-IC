@@ -45,7 +45,7 @@ for index, row in top_20_municipios.iloc[::-1].reset_index().iterrows():
 plt.tight_layout()
 
 # Salva o gráfico em um arquivo de imagem de alta resolução
-nome_arquivo_grafico = 'grafico_taxa_proporcional_top20.png'
+nome_arquivo_grafico = 'resultados/graficos/top20_taxa_incidencia.png'
 plt.savefig(nome_arquivo_grafico, dpi=300)
 
 print(f"\nGráfico salvo com sucesso como '{nome_arquivo_grafico}'!")

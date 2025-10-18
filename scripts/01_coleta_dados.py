@@ -73,7 +73,7 @@ print("Análise Temporal Concluída. Gráfico salvo como 'grafico_casos_por_ano.
 print("\nIniciando a análise espacial...")
 
 df_mapa = df.groupby(['codigo_ibge', 'municipio_nome'])[colunas_anos].sum().sum(axis=1).reset_index(name='total_casos')
-caminho_shapefile = 'dados/PE_Municipios_2024.shp'
+caminho_shapefile = 'dados/brutos/PE_Municipios_2024.shp'
 
 try:
     mapa_pe = gpd.read_file(caminho_shapefile)
@@ -130,8 +130,8 @@ try:
             style='italic',
             bbox=dict(facecolor='white', alpha=0.6, boxstyle='round,pad=0.5', edgecolor='grey')
         )
-
-        plt.savefig('mapa_distribuicao_casos_com_nomes.png', dpi=300, bbox_inches='tight', pad_inches=0.1)
+        nome_arquivo = 'resultados/graficos/evolucao_temporal_casos.png'
+        plt.savefig(nome_arquivo, dpi=300, bbox_inches='tight', pad_inches=0.1)
         print("Análise Espacial Concluída. Mapa aprimorado salvo como 'mapa_distribuicao_casos_com_nomes.png'")
         plt.show()
 
