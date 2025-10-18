@@ -18,7 +18,7 @@ A investigação foi dividida em três etapas lógicas:
 1. 🗓️ O Panorama Temporal: Quando ocorreu o pico?
 A análise temporal dos casos confirmados de SCZ em Pernambuco mostra um pico epidêmico claro nos anos de 2021 e 2022, que serviram como foco principal do estudo.
 
-<p align="center"> <img src="resultados/graficos/evolucao_temporal_casos.png" width="800"> </p>
+<p align="center"> <img src="resultados\graficos\grafico_casos_por_ano.png" width="800"> </p>
 
 2. 🗺️ O Panorama Espacial: Onde se concentraram os casos?
 O mapa de casos absolutos mostra uma concentração esperada na Região Metropolitana do Recife (RMR) e em polos regionais, que são áreas mais populosas.
