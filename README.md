@@ -10,7 +10,6 @@ Análise da correlação entre a taxa de incidência da Síndrome Congênita do 
 <img alt="Python" src="https://img.shields.io/badge/Python-3.10%2B-blue?logo=python&logoColor=yellow">
 <img alt="Pandas" src="https://img.shields.io/badge/Pandas-blueviolet?logo=pandas&logoColor=white">
 <img alt="GeoPandas" src="https://img.shields.io/badge/GeoPandas-green?logo=geopandas&logoColor=white">
-<img alt="Plotly" src="https://www.google.com/search?q=https://img.shields.io/badge/Plotly-3c489b%3Flogo%3Dplotly%26logoColor%3Dwhite">
 <img alt="Seaborn" src="https://img.shields.io/badge/Seaborn-darkblue?logo=seaborn&logoColor=white">
 </p>
 
